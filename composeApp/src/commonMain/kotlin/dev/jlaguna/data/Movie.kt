@@ -1,4 +1,4 @@
-package dev.jlaguna
+package dev.jlaguna.data
 
 data class Movie(
     val id: Int,
