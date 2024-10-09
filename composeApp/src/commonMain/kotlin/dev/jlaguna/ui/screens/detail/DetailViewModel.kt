@@ -1,4 +1,4 @@
-package dev.jlaguna.ui.screens.home
+package dev.jlaguna.ui.screens.detail
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.jlaguna.data.Movie
 import dev.jlaguna.data.MoviesRepository
-import dev.jlaguna.data.RemoteMovie
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class DetailViewModel(
+    private val movieId: Int,
     private val repository: MoviesRepository
 ): ViewModel() {
 
@@ -22,13 +22,13 @@ class HomeViewModel(
             state = UiState(isLoading = true)
             state = UiState(
                 isLoading = false,
-                movies = repository.fetchPopularMovies()
+                movie = repository.fetchMovieById(movieId)
             )
         }
     }
 
     data class UiState(
         val isLoading: Boolean = false,
-        val movies: List<Movie> = emptyList()
+        val movie: Movie? = null
     )
 }

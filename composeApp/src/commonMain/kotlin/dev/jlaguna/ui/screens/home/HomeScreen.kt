@@ -28,6 +28,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import dev.jlaguna.data.Movie
+import dev.jlaguna.ui.common.LoadingIndicator
 import dev.jlaguna.ui.screens.Screen
 import learningkmp.composeapp.generated.resources.Res
 import learningkmp.composeapp.generated.resources.app_name
@@ -52,16 +53,11 @@ fun HomeScreen(
             },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         ) { padding ->
-            if (state.isLoading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
+
+            LoadingIndicator(
+                enabled = state.isLoading,
+                modifier = Modifier.padding(padding)
+            )
 
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(120.dp),
