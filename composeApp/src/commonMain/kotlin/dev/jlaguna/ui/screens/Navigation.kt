@@ -2,7 +2,6 @@ package dev.jlaguna.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -11,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dev.jlaguna.data.MoviesRepository
 import dev.jlaguna.data.MoviesService
-import dev.jlaguna.data.movies
 import dev.jlaguna.ui.screens.detail.DetailScreen
 import dev.jlaguna.ui.screens.detail.DetailViewModel
 import dev.jlaguna.ui.screens.home.HomeScreen
