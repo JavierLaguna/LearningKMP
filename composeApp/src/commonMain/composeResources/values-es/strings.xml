@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LearningKMP</string>
+    <string name="back">Volver atrás</string>
+    <string name="original_language">Idioma original</string>
+    <string name="original_title">Título original</string>
+    <string name="release_date">Fecha de lanzamiento</string>
+    <string name="popularity">Popularidad</string>
+    <string name="vote_average">Media de votos</string>
+</resources>

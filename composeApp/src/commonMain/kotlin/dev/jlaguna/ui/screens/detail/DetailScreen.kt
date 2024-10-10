@@ -35,6 +35,11 @@ import dev.jlaguna.ui.common.LoadingIndicator
 import dev.jlaguna.ui.screens.Screen
 import learningkmp.composeapp.generated.resources.Res
 import learningkmp.composeapp.generated.resources.back
+import learningkmp.composeapp.generated.resources.original_language
+import learningkmp.composeapp.generated.resources.original_title
+import learningkmp.composeapp.generated.resources.popularity
+import learningkmp.composeapp.generated.resources.release_date
+import learningkmp.composeapp.generated.resources.vote_average
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -102,7 +107,7 @@ private fun MovieDetail(
             .verticalScroll(rememberScrollState())
     ) {
         AsyncImage(
-            model = movie.backdrop,
+            model = movie.backdrop ?: movie.poster,
             contentDescription = movie.title,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -114,11 +119,11 @@ private fun MovieDetail(
 
         Text(
             text = buildAnnotatedString {
-                Property("Original language", movie.originalLanguage)
-                Property("Original title", movie.originalTitle)
-                Property("Release date", movie.releaseDate)
-                Property("Popularity", movie.popularity.toString())
-                Property("Vote average", movie.voteAverage.toString(), true)
+                Property(stringResource(Res.string.original_language), movie.originalLanguage)
+                Property(stringResource(Res.string.original_title), movie.originalTitle)
+                Property(stringResource(Res.string.release_date), movie.releaseDate)
+                Property(stringResource(Res.string.popularity), movie.popularity.toString())
+                Property(stringResource(Res.string.vote_average), movie.voteAverage.toString(), true)
             },
             modifier = Modifier
                 .fillMaxWidth()
