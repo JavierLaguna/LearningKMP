@@ -1,15 +1,31 @@
 package dev.jlaguna.data
 
+import dev.jlaguna.data.database.MoviesDao
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
+
 class MoviesRepository(
-    private val moviesService: MoviesService
+    private val moviesService: MoviesService,
+    private val moviesDao: MoviesDao
 ) {
 
-    suspend fun fetchPopularMovies(): List<Movie> {
-        return moviesService.fetchPopularMovies().results.map { it.toDomainMovie() }
+    val movies = moviesDao.fetchPopularMovies().onEach { movies ->
+        if (movies.isEmpty()) {
+            val popularMovies =
+                moviesService.fetchPopularMovies().results.map { it.toDomainMovie() }
+            moviesDao.save(popularMovies)
+        }
     }
 
-    suspend fun fetchMovieById(id: Int): Movie {
-        return moviesService.fetchMovieById(id).toDomainMovie()
+    //suspend fun fetchPopularMovies(): List<Movie> {
+    //    return moviesService.fetchPopularMovies().results.map { it.toDomainMovie() }
+    //}
+
+    suspend fun fetchMovieById(id: Int): Flow<Movie?> = moviesDao.fetchMovieById(id).onEach { movie ->
+        if (movie == null) {
+            val remoteMovie = moviesService.fetchMovieById(id).toDomainMovie()
+            moviesDao.save(listOf(remoteMovie))
+        }
     }
 }
 

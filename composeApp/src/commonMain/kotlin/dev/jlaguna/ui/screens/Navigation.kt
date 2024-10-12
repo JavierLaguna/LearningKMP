@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dev.jlaguna.data.MoviesRepository
 import dev.jlaguna.data.MoviesService
+import dev.jlaguna.data.database.MoviesDao
 import dev.jlaguna.ui.screens.detail.DetailScreen
 import dev.jlaguna.ui.screens.detail.DetailViewModel
 import dev.jlaguna.ui.screens.home.HomeScreen
@@ -25,9 +26,9 @@ import learningkmp.composeapp.generated.resources.api_key
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun Navigation() {
+fun Navigation(moviesDao: MoviesDao) {
     val navController = rememberNavController()
-    val repository = rememberMoviesRepository()
+    val repository = rememberMoviesRepository(moviesDao)
 
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
@@ -58,6 +59,7 @@ fun Navigation() {
 
 @Composable
 private fun rememberMoviesRepository(
+    moviesDao: MoviesDao,
     apiKey: String = stringResource(Res.string.api_key)
 ): MoviesRepository = remember {
     val client = HttpClient {
@@ -76,5 +78,5 @@ private fun rememberMoviesRepository(
             }
     }
 
-    MoviesRepository(MoviesService(client))
+    MoviesRepository(MoviesService(client), moviesDao)
 }

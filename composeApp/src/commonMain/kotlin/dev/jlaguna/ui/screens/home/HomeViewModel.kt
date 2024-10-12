@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.jlaguna.data.Movie
 import dev.jlaguna.data.MoviesRepository
-import dev.jlaguna.data.RemoteMovie
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -20,10 +19,17 @@ class HomeViewModel(
     init {
         viewModelScope.launch {
             state = UiState(isLoading = true)
-            state = UiState(
-                isLoading = false,
-                movies = repository.fetchPopularMovies()
-            )
+            repository.movies.collect { movies ->
+                state = UiState(
+                    isLoading = false,
+                    movies = movies
+                )
+            }
+
+            //state = UiState(
+            //    isLoading = false,
+            //    movies = repository.fetchPopularMovies()
+            //)
         }
     }
 

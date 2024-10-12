@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -8,6 +7,8 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidxRoom)
 }
 
 kotlin {
@@ -30,7 +31,6 @@ kotlin {
     }
     
     sourceSets {
-        
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -51,10 +51,16 @@ kotlin {
             implementation(libs.ktor.client.contentnegotiation)
             implementation(libs.ktor.serialization.json)
             implementation(libs.androidx.navigation.compose)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+    }
+
+    sourceSets.commonMain {
+        kotlin.srcDir("build/generated/ksp/metadata")
     }
 
     task("testClasses")
@@ -97,3 +103,16 @@ android {
     }
 }
 
+dependencies {
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
