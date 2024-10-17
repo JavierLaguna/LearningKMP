@@ -10,9 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
-import dev.jlaguna.data.database.getDatabaseBuilder
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,9 +20,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val db = getDatabaseBuilder(this).build()
             EnableTransparentStatusBar()
-            App(db.moviesDao())
+            App()
         }
     }
 }
@@ -39,8 +37,8 @@ private fun EnableTransparentStatusBar() {
     }
 }
 
-//@Preview
-//@Composable
-//fun AppAndroidPreview() {
-//    App()
-//}
+@Preview
+@Composable
+fun AppAndroidPreview() {
+    App()
+}

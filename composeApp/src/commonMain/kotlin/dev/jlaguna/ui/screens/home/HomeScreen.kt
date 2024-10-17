@@ -30,11 +30,13 @@ import dev.jlaguna.ui.screens.Screen
 import learningkmp.composeapp.generated.resources.Res
 import learningkmp.composeapp.generated.resources.app_name
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 fun HomeScreen(
-    vm: HomeViewModel,
+    vm: HomeViewModel = koinViewModel(),
     onMovieClick: (Movie) -> Unit
 ) {
     val state = vm.state
