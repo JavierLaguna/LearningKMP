@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import dev.jlaguna.LearningKMP.BuildConfig
 import dev.jlaguna.data.MoviesRepository
 import dev.jlaguna.data.MoviesService
 import dev.jlaguna.data.database.MoviesDao
@@ -21,9 +22,6 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import learningkmp.composeapp.generated.resources.Res
-import learningkmp.composeapp.generated.resources.api_key
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun Navigation(moviesDao: MoviesDao) {
@@ -59,8 +57,7 @@ fun Navigation(moviesDao: MoviesDao) {
 
 @Composable
 private fun rememberMoviesRepository(
-    moviesDao: MoviesDao,
-    apiKey: String = stringResource(Res.string.api_key)
+    moviesDao: MoviesDao
 ): MoviesRepository = remember {
     val client = HttpClient {
             install(ContentNegotiation) {
@@ -73,7 +70,7 @@ private fun rememberMoviesRepository(
                 url {
                     protocol = URLProtocol.HTTPS
                     host = "api.themoviedb.org"
-                    parameters.append("api_key", apiKey)
+                    parameters.append("api_key", BuildConfig.API_KEY)
                 }
             }
     }
