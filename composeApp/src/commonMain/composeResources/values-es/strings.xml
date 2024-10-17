@@ -6,4 +6,5 @@
     <string name="release_date">Fecha de lanzamiento</string>
     <string name="popularity">Popularidad</string>
     <string name="vote_average">Media de votos</string>
+    <string name="favorite">Marcar como Favorito</string>
 </resources>

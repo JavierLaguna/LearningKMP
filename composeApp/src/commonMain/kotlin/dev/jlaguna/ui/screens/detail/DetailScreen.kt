@@ -9,7 +9,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +38,7 @@ import dev.jlaguna.ui.common.LoadingIndicator
 import dev.jlaguna.ui.screens.Screen
 import learningkmp.composeapp.generated.resources.Res
 import learningkmp.composeapp.generated.resources.back
+import learningkmp.composeapp.generated.resources.favorite
 import learningkmp.composeapp.generated.resources.original_language
 import learningkmp.composeapp.generated.resources.original_title
 import learningkmp.composeapp.generated.resources.popularity
@@ -59,6 +63,18 @@ fun DetailScreen(
                     scrollBehavior = scrollBehavior,
                     onBack = onBack
                 )
+            },
+            floatingActionButton = {
+                state.movie?.let { movie ->
+                    FloatingActionButton(
+                        onClick = vm::onFavoriteClick
+                    ) {
+                        Icon(
+                            imageVector = if (movie.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = stringResource(Res.string.favorite)
+                        )
+                    }
+                }
             }
         ) { padding ->
             LoadingIndicator(
