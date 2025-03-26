@@ -3,6 +3,7 @@ package dev.jlaguna
 import androidx.room.RoomDatabase
 import dev.jlaguna.LearningKMP.BuildConfig
 import dev.jlaguna.data.MoviesRepository
+import dev.jlaguna.data.RegionRepository
 import dev.jlaguna.data.MoviesService
 import dev.jlaguna.data.database.MoviesDao
 import dev.jlaguna.data.database.MoviesDatabase
@@ -32,6 +33,7 @@ val appModule = module {
 
 val dataModule = module {
     factoryOf(::MoviesRepository)
+    factoryOf(::RegionRepository)
     factoryOf(::MoviesService)
     single<HttpClient> {
         HttpClient {

@@ -29,8 +29,10 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import dev.icerock.moko.permissions.Permission
 import dev.jlaguna.data.Movie
 import dev.jlaguna.ui.common.LoadingIndicator
+import dev.jlaguna.ui.common.PermissionRequestEffect
 import dev.jlaguna.ui.screens.Screen
 import learningkmp.composeapp.generated.resources.Res
 import learningkmp.composeapp.generated.resources.app_name
@@ -45,6 +47,10 @@ fun HomeScreen(
     vm: HomeViewModel = koinViewModel(),
     onMovieClick: (Movie) -> Unit
 ) {
+    PermissionRequestEffect(Permission.COARSE_LOCATION) {
+        vm.onUiReady()
+    }
+
     val state = vm.state
 
     Screen {
