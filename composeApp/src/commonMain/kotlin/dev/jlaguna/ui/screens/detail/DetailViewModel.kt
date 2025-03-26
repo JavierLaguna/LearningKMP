@@ -1,12 +1,12 @@
 package dev.jlaguna.ui.screens.detail
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.jlaguna.data.Movie
 import dev.jlaguna.data.MoviesRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
@@ -14,14 +14,14 @@ class DetailViewModel(
     private val repository: MoviesRepository
 ): ViewModel() {
 
-    var state by mutableStateOf(UiState())
-        private set
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            state = UiState(isLoading = true)
+            _state.value = UiState(isLoading = true)
             repository.fetchMovieById(movieId).collect { movie ->
-                state = UiState(
+                _state.value = UiState(
                     isLoading = false,
                     movie = movie
                 )
@@ -40,7 +40,7 @@ class DetailViewModel(
     )
 
     fun onFavoriteClick() {
-        state.movie?.let {
+        _state.value.movie?.let {
             viewModelScope.launch {
                 repository.toggleFavorite(it)
             }
