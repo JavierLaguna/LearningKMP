@@ -4,40 +4,45 @@ import ComposeApp
 extension Movie: Identifiable { }
 
 struct HomeScreen: View {
-    
-    var vm = HomeViewModel()
+    @StateObject var viewModelStoreOwner = SharedViewModelStoreOwner<HomeViewModel>()
+    @StateObject var locationManager = LocationManager()
     
     var body: some View {
         NavigationView {
             VStack {
-                Observing(vm.state) { state in
+                Observing(viewModelStoreOwner.instance.state) { state in
                     if state.isLoading {
                         ProgressView()
-                            .progressViewStyle(.circular)
+                            .progressViewStyle(CircularProgressViewStyle())
                     }
                     
                     if !state.movies.isEmpty {
+                        let columns = [
+                            GridItem(.adaptive(minimum: 100), spacing: 5)
+                        ]
+                        
                         ScrollView {
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
+                            LazyVGrid(columns: columns, spacing: 5) {
                                 ForEach(state.movies) { movie in
-                                    NavigationLink(destination: DetailScreen(movieId: movie.id)) {
+                                    NavigationLink(destination: DetailScreen(id: movie.id)) {
                                         MovieItemView(movie: movie)
                                     }
                                 }
                             }
-                            .padding(.horizontal)
                         }
+                        .padding(.horizontal)
                     }
                 }
             }
-            .navigationBarTitle("KMP Movies")
-        }
-        .onAppear {
-            vm.onUiReady()
+            .navigationBarTitle(Text("KMP Movies"))
+        }.onAppear {
+            locationManager.requestPermission {
+                viewModelStoreOwner.instance.onUiReady()
+            }
         }
     }
+    
 }
-
 struct MovieItemView: View {
     var movie: Movie
     
@@ -69,7 +74,6 @@ struct MovieItemView: View {
                             EmptyView()
                         }
                     }
-                    
                     
                     if movie.isFavorite {
                         Image(systemName: "heart.fill")
