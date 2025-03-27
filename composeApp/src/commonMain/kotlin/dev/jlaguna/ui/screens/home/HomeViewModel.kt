@@ -8,10 +8,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class HomeViewModel(
-    private val repository: MoviesRepository
-): ViewModel() {
+class HomeViewModel: ViewModel(), KoinComponent {
+
+    private val repository: MoviesRepository by inject()
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
@@ -25,11 +27,6 @@ class HomeViewModel(
                     movies = movies
                 )
             }
-
-            //state = UiState(
-            //    isLoading = false,
-            //    movies = repository.fetchPopularMovies()
-            //)
         }
     }
 

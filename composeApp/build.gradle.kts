@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidxRoom)
     alias(libs.plugins.gradleBuildConfig)
+    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -134,4 +135,10 @@ buildConfig {
 
     val apiKey = properties.getProperty("API_KEY")
     buildConfigField("API_KEY", apiKey)
+}
+
+skie {
+    features {
+        enableSwiftUIObservingPreview = true
+    }
 }
