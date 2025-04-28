@@ -29,11 +29,6 @@ class DetailViewModel(
                     movie = movie
                 )
             }
-
-            //state = UiState(
-            //    isLoading = false,
-            //    movie = repository.fetchMovieById(movieId)
-            //)
         }
     }
 
