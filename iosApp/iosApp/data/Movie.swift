@@ -1,3 +1,5 @@
 import ComposeApp
 
-extension Movie: Identifiable, Hashable { }
+extension Movie: @retroactive Identifiable {
+    // Empty
+}

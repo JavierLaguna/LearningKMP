@@ -2,6 +2,7 @@ import SwiftUI
 import ComposeApp
 
 struct HomeScreen: View {
+    
     @StateObject var viewModelStoreOwner = SharedViewModelStoreOwner<HomeViewModel>()
     @StateObject var locationManager = LocationManager()
     
@@ -59,6 +60,7 @@ private struct MovieItemView: View {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle())
                                 .frame(width: geometry.size.width, height: geometry.size.height)
+                            
                         case .success(let image):
                             image
                                 .resizable()
@@ -66,6 +68,7 @@ private struct MovieItemView: View {
                                 .frame(width: geometry.size.width, height: geometry.size.height)
                                 .clipped()
                                 .cornerRadius(8)
+                            
                         case .failure:
                             Image(systemName: "photo")
                                 .resizable()
@@ -73,6 +76,7 @@ private struct MovieItemView: View {
                                 .frame(width: geometry.size.width, height: geometry.size.height)
                                 .clipped()
                                 .cornerRadius(8)
+                            
                         @unknown default:
                             EmptyView()
                         }

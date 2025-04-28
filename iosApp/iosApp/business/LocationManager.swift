@@ -2,6 +2,7 @@ import Foundation
 import CoreLocation
 
 final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    
     private let locationManager = CLLocationManager()
     private var callback : Optional<() -> Void> = nil
     
@@ -26,6 +27,7 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         DispatchQueue.main.async {
             self.authorizationStatus = status
+            
             if let callback = self.callback {
                 if self.authorizationStatus != .notDetermined {
                     callback()

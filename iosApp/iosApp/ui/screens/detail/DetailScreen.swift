@@ -14,7 +14,7 @@ struct DetailScreen: View {
     var body: some View {
         Observing(viewModelStoreOwner.instance.state) { state in
             VStack {
-                if(state.isLoading) {
+                if state.isLoading {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
                 }
@@ -49,23 +49,26 @@ private struct MovieDetail: View {
                     .frame(maxHeight: 200)
                     .clipped()
                 }
+                
                 Text(movie.overview)
                     .padding()
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("**Original language**: \(movie.originalLanguage)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("**Original title**: \(movie.originalTitle)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("**Release date**: \(movie.releaseDate)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("**Popularity**: \(movie.popularity)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("**Vote average**: \(movie.voteAverage)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Group {
+                        Text("**Original language**: \(movie.originalLanguage)")
+                        
+                        Text("**Original title**: \(movie.originalTitle)")
+                            
+                        Text("**Release date**: \(movie.releaseDate)")
+                            
+                        Text("**Popularity**: \(movie.popularity)")
+                            
+                        Text("**Vote average**: \(movie.voteAverage)")
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding()
-                .background(Color.secondary.opacity(0.1))
+                .background(.secondary.opacity(0.1))
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
                 .cornerRadius(8)
             }
