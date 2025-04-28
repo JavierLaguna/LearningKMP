@@ -30,9 +30,9 @@ struct DetailScreen: View {
     }
 }
 
-struct MovieDetail: View {
-    var movie: Movie
-    var onFavoriteClick: () -> Void
+private struct MovieDetail: View {
+    let movie: Movie
+    let onFavoriteClick: () -> Void
     
     var body: some View {
         ScrollView {

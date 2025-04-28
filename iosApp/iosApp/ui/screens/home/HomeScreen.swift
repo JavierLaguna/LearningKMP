@@ -1,14 +1,12 @@
 import SwiftUI
 import ComposeApp
 
-extension Movie: Identifiable { }
-
 struct HomeScreen: View {
     @StateObject var viewModelStoreOwner = SharedViewModelStoreOwner<HomeViewModel>()
     @StateObject var locationManager = LocationManager()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Observing(viewModelStoreOwner.instance.state) { state in
                     if state.isLoading {
@@ -24,7 +22,7 @@ struct HomeScreen: View {
                         ScrollView {
                             LazyVGrid(columns: columns, spacing: 5) {
                                 ForEach(state.movies) { movie in
-                                    NavigationLink(destination: DetailScreen(id: movie.id)) {
+                                    NavigationLink(value: movie) {
                                         MovieItemView(movie: movie)
                                     }
                                 }
@@ -35,6 +33,10 @@ struct HomeScreen: View {
                 }
             }
             .navigationBarTitle(Text("KMP Movies"))
+            .navigationDestination(for: Movie.self) { movie in
+                DetailScreen(id: movie.id)
+            }
+            
         }.onAppear {
             locationManager.requestPermission {
                 viewModelStoreOwner.instance.onUiReady()
@@ -43,7 +45,8 @@ struct HomeScreen: View {
     }
     
 }
-struct MovieItemView: View {
+
+private struct MovieItemView: View {
     var movie: Movie
     
     var body: some View {
